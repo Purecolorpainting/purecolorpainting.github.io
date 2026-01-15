@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.purecolorpainting.com)",
+      "Bash(curl:*)",
+      "Bash(dir:*)"
+    ]
+  }
+}

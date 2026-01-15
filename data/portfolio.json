@@ -1,0 +1,16 @@
+{
+    "items": [
+        {
+            "title": "Grounds Project",
+            "category": "residential",
+            "image": "images/portfolio/residential/grounds-2010.jpg",
+            "description": "Residential exterior painting - November 2010"
+        },
+        {
+            "title": "Residential Exterior",
+            "category": "residential",
+            "image": "images/portfolio/residential/exterior-1.gif",
+            "description": "Full exterior painting project"
+        }
+    ]
+}

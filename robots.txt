@@ -1,0 +1,7 @@
+# robots.txt for Pure Color Painting
+
+User-agent: *
+Allow: /
+
+# Sitemap location - UPDATE with your actual domain
+Sitemap: https://purecolorpainting.com/sitemap.xml
