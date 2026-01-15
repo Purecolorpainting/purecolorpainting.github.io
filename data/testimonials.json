@@ -1,0 +1,24 @@
+{
+    "testimonials": [
+        {
+            "text": "Pure Color Painting did an amazing job on our home's exterior. They were professional, punctual, and the results exceeded our expectations. Highly recommend!",
+            "author": "Sarah M.",
+            "location": "Residential Client"
+        },
+        {
+            "text": "We hired them for our office renovation and couldn't be happier. They worked around our schedule and completed the job on time with minimal disruption to our business.",
+            "author": "James T.",
+            "location": "Commercial Client"
+        },
+        {
+            "text": "Attention to detail is outstanding. They took the time to properly prepare all surfaces and the finish quality shows it. Our deck looks brand new!",
+            "author": "Mike & Linda R.",
+            "location": "Residential Client"
+        },
+        {
+            "text": "From the free estimate to the final walkthrough, the entire experience was top-notch. Fair pricing and excellent craftsmanship.",
+            "author": "David K.",
+            "location": "Residential Client"
+        }
+    ]
+}
