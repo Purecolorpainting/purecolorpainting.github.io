@@ -378,7 +378,7 @@ img {
 /* Portfolio Section */
 .portfolio {
     padding: 80px 0;
-    background-color: var(--color-white);
+    background-color: var(--color-light-blue);
 }
 
 .portfolio h2 {
@@ -428,6 +428,7 @@ img {
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: dense;
     gap: 25px;
 }
 
@@ -436,7 +437,9 @@ img {
     border-radius: 8px;
     overflow: hidden;
     aspect-ratio: 4/3;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
+    border: 2px solid var(--color-gray);
+    background-color: var(--color-light);
 }
 
 .portfolio-item img {
@@ -480,7 +483,10 @@ img {
 /* Before/After Comparison Items */
 .portfolio-item-comparison {
     grid-column: span 2;
-    aspect-ratio: auto;
+    aspect-ratio: 8/3;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
 }
 
 .comparison-container {
@@ -494,18 +500,19 @@ img {
     position: relative;
     overflow: hidden;
     border-radius: 4px;
+    border: 2px solid var(--color-gray);
+    background-color: var(--color-light);
 }
 
 .comparison-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    aspect-ratio: 4/3;
 }
 
 .comparison-label {
     position: absolute;
-    bottom: 10px;
+    top: 10px;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.7);
@@ -866,10 +873,16 @@ img {
 
     .portfolio-item-comparison {
         grid-column: span 1;
+        aspect-ratio: auto;
     }
 
     .comparison-container {
         flex-direction: column;
+        gap: 8px;
+    }
+
+    .comparison-image img {
+        aspect-ratio: 4/3;
     }
 
     .testimonials-grid {

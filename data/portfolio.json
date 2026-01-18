@@ -1,10 +1,24 @@
 {
     "items": [
         {
-            "title": "Grounds Project",
+            "title": "Staircase Refinish",
+            "category": "residential",
+            "image": "images/portfolio/residential/residential_after_1.jpg",
+            "beforeImage": "images/portfolio/residential/residential_before_1.jpg",
+            "description": "Interior staircase painting"
+        },
+        {
+            "title": "Fireplace & Mantle",
+            "category": "residential",
+            "image": "images/portfolio/residential/residential_after_2.jpg",
+            "beforeImage": "images/portfolio/residential/residential_before_2.jpg",
+            "description": "Fireplace and mantle refresh"
+        },
+        {
+            "title": "Kitchen Repaint",
             "category": "residential",
             "image": "images/portfolio/residential/grounds-2010.jpg",
-            "description": "Residential exterior painting - November 2010"
+            "description": "Kitchen cabinet and wall painting"
         },
         {
             "title": "Residential Exterior",
