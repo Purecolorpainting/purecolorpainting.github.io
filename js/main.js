@@ -53,15 +53,39 @@ function renderPortfolio(items, filter = 'all') {
         return;
     }
 
-    grid.innerHTML = filteredItems.map(item => `
-        <div class="portfolio-item" data-category="${item.category}">
-            <img src="${item.image}" alt="${item.title}" loading="lazy">
-            <div class="overlay">
-                <h4>${item.title}</h4>
-                ${item.description ? `<p>${item.description}</p>` : ''}
+    grid.innerHTML = filteredItems.map(item => {
+        // Check if this is a before/after item
+        if (item.beforeImage) {
+            return `
+                <div class="portfolio-item portfolio-item-comparison" data-category="${item.category}">
+                    <div class="comparison-container">
+                        <div class="comparison-image comparison-before">
+                            <img src="${item.beforeImage}" alt="${item.title} - Before" loading="lazy">
+                            <span class="comparison-label">Before</span>
+                        </div>
+                        <div class="comparison-image comparison-after">
+                            <img src="${item.image}" alt="${item.title} - After" loading="lazy">
+                            <span class="comparison-label">After</span>
+                        </div>
+                    </div>
+                    <div class="overlay">
+                        <h4>${item.title}</h4>
+                        ${item.description ? `<p>${item.description}</p>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+        // Standard single image item
+        return `
+            <div class="portfolio-item" data-category="${item.category}">
+                <img src="${item.image}" alt="${item.title}" loading="lazy">
+                <div class="overlay">
+                    <h4>${item.title}</h4>
+                    ${item.description ? `<p>${item.description}</p>` : ''}
+                </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 /**
