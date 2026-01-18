@@ -1,9 +1,12 @@
 # IDE
 .idea/
 .vscode/
-.claude/
 *.swp
 *.swo
+
+# Claude
+.claude/
+CLAUDE.md
 
 # OS
 .DS_Store
