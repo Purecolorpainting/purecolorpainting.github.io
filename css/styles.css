@@ -427,7 +427,7 @@ img {
 
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-auto-flow: dense;
     gap: 25px;
 }
@@ -810,17 +810,19 @@ img {
 }
 
 /* Responsive Design */
-@media (max-width: 992px) {
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
+@media (max-width: 1200px) {
     .portfolio-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
     .portfolio-item-comparison {
         grid-column: span 2;
+    }
+}
+
+@media (max-width: 992px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
