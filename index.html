@@ -292,11 +292,11 @@
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="tel" id="phone" name="phone">
+                            <input type="tel" id="phone" name="phone" required pattern="\(\d{3}\) \d{3}-\d{4}" title="Please enter a valid 10-digit phone number">
                         </div>
                         <div class="form-group">
                             <label for="service">Service Interested In</label>
-                            <select id="service" name="service">
+                            <select id="service" name="service" required>
                                 <option value="">Select a service...</option>
                                 <option value="interior">Residential Interior</option>
                                 <option value="exterior">Residential Exterior</option>
