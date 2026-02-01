@@ -181,18 +181,40 @@ function initContactForm() {
     const form = document.getElementById('contact-form');
 
     if (form) {
+        var phoneInput = form.querySelector('#phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function() {
+                var digits = this.value.replace(/\D/g, '').substring(0, 10);
+                if (digits.length >= 7) {
+                    this.value = '(' + digits.substring(0, 3) + ') ' + digits.substring(3, 6) + '-' + digits.substring(6);
+                } else if (digits.length >= 4) {
+                    this.value = '(' + digits.substring(0, 3) + ') ' + digits.substring(3);
+                } else if (digits.length > 0) {
+                    this.value = '(' + digits;
+                }
+            });
+        }
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Collect form data
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
+            const name = form.querySelector('#name').value;
+            const email = form.querySelector('#email').value;
+            const phone = form.querySelector('#phone').value;
+            const service = form.querySelector('#service');
+            const serviceText = service.options[service.selectedIndex].text;
+            const message = form.querySelector('#message').value;
 
-            // For now, show a message - you can integrate with a form service later
-            // Options: Formspree (formspree.io), Netlify Forms, EmailJS, etc.
-            alert('Thank you for your message! We will get back to you soon.\n\n(Note: To enable form submissions, integrate with a service like Formspree)');
+            const subject = 'Free Estimate Request from ' + name;
+            const body = 'Name: ' + name + '\n'
+                + 'Email: ' + email + '\n'
+                + 'Phone: ' + (phone || 'Not provided') + '\n'
+                + 'Service: ' + (serviceText || 'Not specified') + '\n\n'
+                + 'Message:\n' + message;
 
-            form.reset();
+            window.location.href = 'mailto:shaun@purecolorpainting.com'
+                + '?subject=' + encodeURIComponent(subject)
+                + '&body=' + encodeURIComponent(body);
         });
     }
 }
