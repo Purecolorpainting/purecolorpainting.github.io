@@ -174,10 +174,11 @@ function initPortfolioFilters() {
 }
 
 /**
- * Initialize contact form handling
- * Note: For a static site, you'll need a form service like Formspree or Netlify Forms
+ * Initialize contact form handling via EmailJS
  */
 function initContactForm() {
+    emailjs.init('rXH7ds_Pq6j0G0foQ');
+
     const form = document.getElementById('contact-form');
 
     if (form) {
@@ -198,23 +199,34 @@ function initContactForm() {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const name = form.querySelector('#name').value;
-            const email = form.querySelector('#email').value;
-            const phone = form.querySelector('#phone').value;
-            const service = form.querySelector('#service');
-            const serviceText = service.options[service.selectedIndex].text;
-            const message = form.querySelector('#message').value;
+            var submitBtn = form.querySelector('button[type="submit"]');
+            var originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
 
-            const subject = 'Free Estimate Request from ' + name;
-            const body = 'Name: ' + name + '\n'
-                + 'Email: ' + email + '\n'
-                + 'Phone: ' + (phone || 'Not provided') + '\n'
-                + 'Service: ' + (serviceText || 'Not specified') + '\n\n'
-                + 'Message:\n' + message;
+            var service = form.querySelector('#service');
 
-            window.location.href = 'mailto:shaun@purecolorpainting.com'
-                + '?subject=' + encodeURIComponent(subject)
-                + '&body=' + encodeURIComponent(body);
+            emailjs.send('service_bwjjwmh', 'template_8n9bi8e', {
+                from_name: form.querySelector('#name').value,
+                from_email: form.querySelector('#email').value,
+                phone: form.querySelector('#phone').value || 'Not provided',
+                service: service.options[service.selectedIndex].text,
+                message: form.querySelector('#message').value
+            }).then(function() {
+                submitBtn.textContent = 'Message Sent!';
+                form.reset();
+                setTimeout(function() {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, 3000);
+            }, function(error) {
+                submitBtn.textContent = 'Failed to Send';
+                submitBtn.disabled = false;
+                console.error('EmailJS error:', error);
+                setTimeout(function() {
+                    submitBtn.textContent = originalText;
+                }, 3000);
+            });
         });
     }
 }
