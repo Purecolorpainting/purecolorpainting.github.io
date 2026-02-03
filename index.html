@@ -76,12 +76,20 @@
             "name": "Macomb County, Michigan"
         },
         "priceRange": "$$",
-        "openingHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-            "opens": "08:00",
-            "closes": "18:00"
-        },
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "07:30",
+                "closes": "17:00"
+            },
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "Saturday",
+                "opens": "08:00",
+                "closes": "14:00"
+            }
+        ],
         "sameAs": [
             "https://facebook.com/pcpainting"
         ],
@@ -136,8 +144,11 @@
     }
     </script>
 
-    <!-- Favicon - add your favicon files to the root directory -->
-    <link rel="icon" type="image/png" href="images/logo.png">
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css">
@@ -194,6 +205,35 @@
                 <h2>About Pure Color Painting</h2>
                 <p>Since 2009, Pure Color Painting has been the trusted painting contractor for homeowners and businesses throughout Macomb County, Michigan. Based in Chesterfield, we serve the entire Metro Detroit area with a commitment to quality craftsmanship and 100% customer satisfaction.</p>
                 <p>Every project we undertake is approached with meticulous attention to detail. We take pride in proper surface preparation and protecting your furnishings, ensuring a flawless finish that lasts for years to come.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-us">
+        <div class="container">
+            <h2>Why Choose Us</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">&#128197;</div>
+                    <h3>Since 2009</h3>
+                    <p>Over 15 years of trusted painting experience in the Metro Detroit area.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">&#9989;</div>
+                    <h3>Licensed & Insured</h3>
+                    <p>Fully licensed and insured for your peace of mind on every project.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">&#128176;</div>
+                    <h3>Free Estimates</h3>
+                    <p>No-obligation quotes with transparent, competitive pricing.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">&#11088;</div>
+                    <h3>100% Satisfaction</h3>
+                    <p>We stand behind our work and aren't done until you're completely happy.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -329,15 +369,51 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <p>&copy; <span id="current-year"></span> Pure Color Painting. All rights reserved.</p>
-                <div class="payment-methods">
-                    <span>We Accept:</span>
-                    <img src="images/payment-methods.gif" alt="We accept Visa, Mastercard, and Discover">
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <p><a href="tel:+15863394675">(586) 339-4675</a></p>
+                    <p><a href="mailto:shaun@purecolorpainting.com">shaun@purecolorpainting.com</a></p>
+                    <div class="footer-social">
+                        <a href="https://facebook.com/pcpainting" target="_blank" rel="noopener" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                        </a>
+                    </div>
                 </div>
+                <div class="footer-col">
+                    <h4>Service Area</h4>
+                    <p class="service-area-list">Chesterfield, Macomb, Clinton Twp, New Baltimore, Mt. Clemens, Shelby Twp, Sterling Heights, St. Clair Shores, Harrison Twp, Fraser, Warren, Roseville, Eastpointe, Troy, Rochester Hills & surrounding areas</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Hours of Operation</h4>
+                    <p>Mon–Fri: 7:30 AM – 5:00 PM</p>
+                    <p>Saturday: 8:00 AM – 2:00 PM</p>
+                    <p>Sunday: Closed</p>
+                </div>
+                <div class="footer-col">
+                    <h4>We Accept</h4>
+                    <div class="payment-icons">
+                        <div class="payment-icon" aria-label="Visa">
+                            <svg viewBox="0 0 48 32" width="48" height="32"><rect width="48" height="32" rx="4" fill="#fff"/><path d="M19.5 21h-3l1.9-11.5h3L19.5 21zm12.7-11.2c-.6-.2-1.5-.5-2.7-.5-3 0-5.1 1.5-5.1 3.7 0 1.6 1.5 2.5 2.6 3.1 1.2.5 1.6.9 1.6 1.4 0 .7-.9 1.1-1.8 1.1-1.2 0-1.9-.2-2.9-.6l-.4-.2-.4 2.5c.7.3 2.1.6 3.5.6 3.2 0 5.2-1.5 5.2-3.8 0-1.3-.8-2.3-2.5-3.1-1-.5-1.7-.9-1.7-1.4 0-.5.5-1 1.7-1 1 0 1.7.2 2.2.4l.3.1.4-2.3zm7.8-.3h-2.3c-.7 0-1.3.2-1.6 1L32 21h3.2l.6-1.8h3.9l.4 1.8H43l-2.6-11.5h-0.4zm-3.2 7.4l1.2-3.2.4-1.1.2 1.1.7 3.2h-2.5zM16.3 9.5L13.4 17l-.3-1.5c-.5-1.8-2.2-3.8-4.1-4.8l2.7 10.2h3.2l4.8-11.5h-3.4v.1z" fill="#1A1F71"/><path d="M10.3 9.5H5.1l-.1.3c3.8.9 6.3 3.2 7.3 5.9l-1.1-5.2c-.2-.8-.7-1-1.4-1h.5z" fill="#F9A533"/></svg>
+                        </div>
+                        <div class="payment-icon" aria-label="Mastercard">
+                            <svg viewBox="0 0 48 32" width="48" height="32"><rect width="48" height="32" rx="4" fill="#fff"/><circle cx="19" cy="16" r="9" fill="#EB001B"/><circle cx="29" cy="16" r="9" fill="#F79E1B"/><path d="M24 9.3a9 9 0 0 0-3.4 6.7A9 9 0 0 0 24 22.7a9 9 0 0 0 3.4-6.7A9 9 0 0 0 24 9.3z" fill="#FF5F00"/></svg>
+                        </div>
+                        <div class="payment-icon" aria-label="Discover">
+                            <svg viewBox="0 0 48 32" width="48" height="32"><rect width="48" height="32" rx="4" fill="#fff"/><rect x="1" y="16" width="46" height="15" rx="3" fill="#F48120"/><text x="24" y="15" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="bold" fill="#231F20">DISCOVER</text></svg>
+                        </div>
+                    </div>
+                    <p class="licensed-insured">Licensed & Insured</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Pure Color Painting. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" aria-label="Back to top">&#9650;</button>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="js/main.js"></script>

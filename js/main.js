@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initPortfolioFilters();
     initContactForm();
     initSmoothScroll();
+    initBackToTop();
 });
 
 /**
@@ -234,6 +235,26 @@ function initContactForm() {
             });
         });
     }
+}
+
+/**
+ * Initialize back to top button
+ */
+function initBackToTop() {
+    var btn = document.querySelector('.back-to-top');
+    if (!btn) return;
+
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 400) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    });
+
+    btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 }
 
 /**
