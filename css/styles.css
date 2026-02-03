@@ -617,6 +617,15 @@ img {
     z-index: 1;
 }
 
+.testimonial-stars {
+    color: #FBBC05;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+}
+
 .testimonial-author {
     font-weight: 600;
     color: var(--color-dark);
@@ -627,11 +636,55 @@ img {
     color: var(--color-gray);
 }
 
+.google-review-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 4px 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #5f6368;
+}
+
 .testimonials-empty {
     grid-column: 1 / -1;
     text-align: center;
     padding: 40px 20px;
     color: var(--color-gray);
+}
+
+/* Review CTA */
+.review-cta {
+    text-align: center;
+    margin-top: 50px;
+    padding: 30px;
+    background: var(--color-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.review-cta p {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--color-primary);
+}
+
+.review-qr {
+    width: 180px;
+    height: 180px;
+    margin: 20px 0 15px;
+}
+
+.review-cta-subtitle {
+    font-family: var(--font-body) !important;
+    font-size: 0.9rem !important;
+    color: var(--color-gray) !important;
 }
 
 /* Contact Section */
