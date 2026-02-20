@@ -749,6 +749,36 @@ img {
     color: var(--color-white);
 }
 
+.business-card-img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    margin-top: 25px;
+    border: 3px solid var(--color-secondary);
+    transition: var(--transition);
+}
+
+.business-card-img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(201, 162, 39, 0.4);
+}
+
+.business-card-link {
+    display: block;
+    text-align: center;
+}
+
+.download-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    transition: var(--transition);
+}
+
+.business-card-link:hover .download-hint {
+    color: var(--color-secondary);
+}
+
 .contact-form-wrapper h3 {
     font-size: 1.5rem;
     margin-bottom: 25px;
