@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Quote Calculator | Pure Color Painting</title>
+
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Quote Calculator Styles */
+        body {
+            padding-top: 80px;
+        }
+
+        .quote-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--color-white);
+            box-shadow: var(--shadow-sm);
+            z-index: 1000;
+        }
+
+        .quote-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary), var(--color-accent), var(--color-secondary), var(--color-primary));
+        }
+
+        .quote-header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 15px 0;
+        }
+
+        .quote-header-content .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        .quote-header-content h1 {
+            font-size: 1.35rem;
+            color: var(--color-primary);
+            margin: 0;
+        }
+
+        .quote-header-content .tagline {
+            font-size: 0.75rem;
+            color: var(--color-gray);
+            margin: 0;
+        }
+
+        .quote-main {
+            padding: 30px 0 60px;
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            background: var(--color-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-secondary);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .settings-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-dark);
+        }
+
+        .settings-toggle:hover {
+            background-color: var(--color-light);
+        }
+
+        .settings-toggle .arrow {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+            color: var(--color-gray);
+        }
+
+        .settings-toggle .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .settings-body {
+            display: none;
+            padding: 0 20px 20px;
+        }
+
+        .settings-body.open {
+            display: block;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .setting-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--color-dark);
+            margin-bottom: 6px;
+        }
+
+        .setting-group .input-wrapper {
+            position: relative;
+        }
+
+        .setting-group .input-wrapper .prefix {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gray);
+            font-weight: 600;
+        }
+
+        .setting-group input {
+            width: 100%;
+            padding: 10px 12px 10px 28px;
+            border: 1px solid var(--color-gray-light);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .setting-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.1);
+        }
+
+        /* Rooms Section */
+        .section-heading {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--color-dark);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--color-secondary);
+        }
+
+        /* Room Cards */
+        .room-card {
+            background: var(--color-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-secondary);
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+
+        .room-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .room-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .room-name-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--color-gray-light);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            transition: var(--transition);
+        }
+
+        .room-name-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.1);
+        }
+
+        .room-name-input::placeholder {
+            color: var(--color-gray);
+            font-weight: 400;
+        }
+
+        .btn-remove {
+            background: none;
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-remove:hover {
+            background-color: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .room-dimensions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .dim-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-gray);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dim-group .input-with-unit {
+            position: relative;
+        }
+
+        .dim-group input {
+            width: 100%;
+            padding: 10px 36px 10px 12px;
+            border: 1px solid var(--color-gray-light);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .dim-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.1);
+        }
+
+        .dim-group .unit {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: var(--color-gray);
+        }
+
+        .room-calcs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--color-gray-light);
+        }
+
+        .calc-item {
+            text-align: center;
+            padding: 8px;
+            background: var(--color-light);
+            border-radius: 4px;
+        }
+
+        .calc-item .calc-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--color-gray);
+            margin-bottom: 2px;
+        }
+
+        .calc-item .calc-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .calc-item .calc-unit {
+            font-size: 0.75rem;
+            color: var(--color-gray);
+            font-weight: 400;
+        }
+
+        /* Add Room Button */
+        .btn-add-room {
+            display: inline-block;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: var(--color-white);
+            border: none;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 30px;
+        }
+
+        .btn-add-room:hover {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Global Inputs */
+        .global-inputs {
+            background: var(--color-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-secondary);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .global-inputs h3 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--color-dark);
+            margin-bottom: 16px;
+        }
+
+        .global-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .global-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--color-dark);
+            margin-bottom: 6px;
+        }
+
+        .global-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-gray-light);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .global-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.1);
+        }
+
+        /* Materials Section */
+        .materials-section {
+            margin-bottom: 30px;
+        }
+
+        .materials-hint {
+            font-size: 0.85rem;
+            color: var(--color-gray);
+            margin-bottom: 16px;
+            margin-top: -12px;
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .material-card {
+            background: var(--color-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-secondary);
+            padding: 16px 20px;
+        }
+
+        .material-card h4 {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+        }
+
+        .material-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 16px;
+        }
+
+        .material-field {
+            flex: 1;
+        }
+
+        .material-field label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--color-gray);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .material-field .input-wrapper {
+            position: relative;
+        }
+
+        .material-field .input-wrapper .prefix {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gray);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .material-field .input-wrapper input {
+            padding-left: 24px;
+        }
+
+        .material-field input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--color-gray-light);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .material-field input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.1);
+        }
+
+        .material-total {
+            flex: 0 0 auto;
+            text-align: right;
+            min-width: 80px;
+        }
+
+        .material-total label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--color-gray);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .material-cost {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            line-height: 36px;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: var(--color-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            border-top: 4px solid var(--color-secondary);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .results-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .results-table tr {
+            border-bottom: 1px solid var(--color-gray-light);
+        }
+
+        .results-table td {
+            padding: 12px 8px;
+            font-size: 0.95rem;
+        }
+
+        .results-table .line-label {
+            color: var(--color-dark);
+            font-weight: 600;
+        }
+
+        .results-table .line-detail {
+            color: var(--color-gray);
+            text-align: center;
+        }
+
+        .results-table .line-amount {
+            text-align: right;
+            font-family: var(--font-body);
+            font-weight: 600;
+            color: var(--color-dark);
+            white-space: nowrap;
+        }
+
+        .results-table tr.section-header-row {
+            border-bottom: none;
+        }
+
+        .results-table .section-label {
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-gray);
+            padding: 16px 8px 4px;
+        }
+
+        .results-table tr.subtotal-row {
+            border-top: 2px solid var(--color-dark);
+            border-bottom: none;
+        }
+
+        .results-table tr.subtotal-row td {
+            padding-top: 16px;
+            font-size: 1rem;
+        }
+
+        .results-table tr.rounding-row {
+            border-bottom: none;
+        }
+
+        .results-table tr.rounding-row td {
+            font-size: 0.85rem;
+            color: var(--color-gray);
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        .results-table tr.total-row td {
+            padding-top: 8px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-share {
+            display: inline-block;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: var(--color-white);
+            border: none;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-share:hover {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-print {
+            display: inline-block;
+            padding: 12px 28px;
+            background: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-print:hover {
+            background: var(--color-primary);
+            color: var(--color-white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+/* Share View Mode */
+        body.share-view .settings-panel,
+        body.share-view .btn-add-room,
+        body.share-view .btn-remove,
+        body.share-view .action-buttons,
+        body.share-view .global-inputs,
+        body.share-view .materials-section,
+        body.share-view .room-name-input,
+        body.share-view .dim-group input,
+        body.share-view .setting-group input {
+            display: none;
+        }
+
+        body.share-view .room-name-display,
+        body.share-view .dim-display {
+            display: block;
+        }
+
+        .room-name-display,
+        .dim-display {
+            display: none;
+        }
+
+        body.share-view .room-card-header {
+            margin-bottom: 8px;
+        }
+
+        .room-name-display {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .dim-display {
+            font-size: 0.9rem;
+            color: var(--color-gray);
+            margin-bottom: 12px;
+        }
+
+        body.share-view .room-dimensions {
+            display: none;
+        }
+
+        .share-exit-bar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-primary);
+            color: var(--color-white);
+            text-align: center;
+            padding: 10px;
+            z-index: 2000;
+        }
+
+        .share-exit-bar button {
+            background: var(--color-secondary);
+            color: var(--color-dark);
+            border: none;
+            padding: 6px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 12px;
+        }
+
+        body.share-view .share-exit-bar {
+            display: block;
+        }
+
+        body.share-view .print-header {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--color-gray-light);
+        }
+
+        body.share-view .quote-header {
+            top: 42px;
+        }
+
+        body.share-view {
+            padding-top: 122px;
+        }
+
+        /* Print Styles */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                padding-top: 0 !important;
+                font-size: 11px !important;
+                line-height: 1.3 !important;
+            }
+
+            .quote-header,
+            .share-exit-bar,
+            .settings-panel,
+            .btn-add-room,
+            .btn-remove,
+            .action-buttons,
+            .global-inputs,
+            .materials-section {
+                display: none !important;
+            }
+
+            .client-grid {
+                display: none !important;
+            }
+
+            .client-display {
+                display: block !important;
+            }
+
+            .client-display .client-display-name {
+                font-weight: 700;
+                font-size: 1rem;
+            }
+
+            .client-display .client-display-address {
+                font-size: 0.8rem;
+                color: #666;
+            }
+
+            .client-info {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin-bottom: 8px !important;
+            }
+
+            .room-name-input,
+            .dim-group input,
+            .dim-group .unit {
+                display: none !important;
+            }
+
+            .room-name-display,
+            .dim-display {
+                display: inline !important;
+            }
+
+            .room-dimensions {
+                display: none !important;
+            }
+
+            .section-heading {
+                font-size: 1rem !important;
+                margin-bottom: 6px !important;
+            }
+
+            .section-heading::after {
+                display: none !important;
+            }
+
+            .room-card {
+                box-shadow: none !important;
+                border: none !important;
+                border-bottom: 1px solid #ccc !important;
+                border-left: 3px solid #c9a227 !important;
+                border-radius: 0 !important;
+                padding: 6px 10px !important;
+                margin-bottom: 4px !important;
+                break-inside: avoid;
+            }
+
+            .room-card-header {
+                margin-bottom: 2px !important;
+                gap: 8px !important;
+            }
+
+            .room-name-display {
+                font-size: 0.9rem !important;
+            }
+
+            .dim-display {
+                font-size: 0.75rem !important;
+                margin-bottom: 4px !important;
+            }
+
+            .room-calcs {
+                display: flex !important;
+                gap: 12px !important;
+                padding-top: 4px !important;
+                border-top: none !important;
+            }
+
+            .calc-item {
+                padding: 2px 6px !important;
+                background: none !important;
+                text-align: left !important;
+                flex: none !important;
+            }
+
+            .calc-item .calc-label {
+                font-size: 0.65rem !important;
+                display: inline !important;
+                margin-bottom: 0 !important;
+            }
+
+            .calc-item .calc-value {
+                font-size: 0.8rem !important;
+                display: inline !important;
+            }
+
+            .calc-item .calc-label::after {
+                content: ': ' !important;
+            }
+
+            .results-section {
+                box-shadow: none !important;
+                border: none !important;
+                border-top: 2px solid #333 !important;
+                border-radius: 0 !important;
+                padding: 10px 0 !important;
+                margin-bottom: 0 !important;
+                break-inside: avoid;
+            }
+
+            .results-section h2 {
+                font-size: 1rem !important;
+                margin-bottom: 6px !important;
+            }
+
+            .results-table td {
+                padding: 3px 6px !important;
+                font-size: 0.8rem !important;
+            }
+
+            .results-table tr.section-header-row .section-label {
+                padding: 8px 6px 2px !important;
+                font-size: 0.65rem !important;
+            }
+
+            .results-table tr.subtotal-row td {
+                padding-top: 8px !important;
+                font-size: 0.85rem !important;
+            }
+
+            .results-table tr.total-row td {
+                font-size: 1rem !important;
+                padding-top: 4px !important;
+            }
+
+            .quote-main {
+                padding: 0 !important;
+            }
+
+            .container {
+                padding: 0 10px !important;
+            }
+
+            .print-header {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+                border-bottom: 2px solid #333;
+            }
+
+            .print-logo {
+                height: 50px;
+                width: auto;
+                margin-bottom: 4px;
+            }
+
+            .print-header h1 {
+                font-size: 1.1rem;
+                margin-bottom: 2px;
+            }
+
+            .print-header p {
+                color: #666;
+                font-size: 0.8rem;
+            }
+
+            .footer {
+                display: none !important;
+            }
+        }
+
+        .print-header {
+            display: none;
+        }
+
+        .print-logo {
+            height: 60px;
+            width: auto;
+            margin-bottom: 8px;
+        }
+
+        /* Client Info */
+        .client-info {
+            background: var(--color-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-primary);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .client-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .client-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--color-dark);
+            margin-bottom: 6px;
+        }
+
+        .client-group .optional-label {
+            font-weight: 400;
+            color: var(--color-gray);
+            font-size: 0.8rem;
+        }
+
+        .client-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-gray-light);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .client-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.1);
+        }
+
+        .client-display {
+            display: none;
+        }
+
+        body.share-view .client-grid {
+            display: none;
+        }
+
+        body.share-view .client-display {
+            display: block;
+            font-size: 1rem;
+            color: var(--color-dark);
+        }
+
+        body.share-view .client-display .client-display-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--color-primary);
+        }
+
+        body.share-view .client-display .client-display-address {
+            font-size: 0.9rem;
+            color: var(--color-gray);
+            margin-top: 2px;
+        }
+
+        body.share-view .client-info {
+            box-shadow: none;
+            border-left: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            .quote-header-content .logo-img {
+                height: 40px;
+            }
+
+            .quote-header-content h1 {
+                font-size: 1.15rem;
+            }
+
+            .quote-main {
+                padding: 20px 0 40px;
+            }
+
+            .section-heading {
+                font-size: 1.25rem;
+                margin-bottom: 14px;
+            }
+
+            .room-dimensions {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .room-calcs {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .global-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .client-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .material-row {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .material-field {
+                flex: 1 1 40%;
+                min-width: 0;
+            }
+
+            .material-total {
+                flex: 1 1 100%;
+                text-align: left;
+            }
+
+            .results-table .line-detail {
+                display: none;
+            }
+
+            .results-section {
+                padding: 20px 16px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-add-room,
+            .btn-share,
+            .btn-print {
+                width: 100%;
+                text-align: center;
+            }
+
+            .settings-panel {
+                margin-bottom: 20px;
+            }
+
+            .global-inputs {
+                margin-bottom: 20px;
+            }
+
+            .btn-add-room {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quote-header-content {
+                gap: 10px;
+                padding: 10px 0;
+            }
+
+            .quote-header-content .logo-img {
+                height: 34px;
+            }
+
+            .quote-header-content h1 {
+                font-size: 1.05rem;
+            }
+
+            .room-card {
+                padding: 14px;
+                margin-bottom: 12px;
+            }
+
+            .room-card-header {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .room-name-input {
+                flex: 1 1 100%;
+                font-size: 0.95rem;
+            }
+
+            .btn-remove {
+                margin-left: auto;
+            }
+
+            .dim-group label {
+                font-size: 0.7rem;
+            }
+
+            .calc-item .calc-label {
+                font-size: 0.65rem;
+            }
+
+            .calc-item .calc-value {
+                font-size: 0.95rem;
+            }
+
+            .results-section {
+                padding: 16px 12px;
+            }
+
+            .results-table td {
+                padding: 8px 4px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Share View Exit Bar -->
+    <div class="share-exit-bar">
+        Share view active <button onclick="toggleShareView()">Exit Share View</button>
+    </div>
+
+    <!-- Header -->
+    <header class="quote-header">
+        <div class="container">
+            <div class="quote-header-content">
+                <img src="images/logo.png" alt="Pure Color Painting" class="logo-img">
+                <div>
+                    <h1>Quote Calculator</h1>
+                    <p class="tagline">Pure Color Painting</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Print Header -->
+    <div class="print-header">
+        <img src="images/logo.png" alt="Pure Color Painting" class="print-logo">
+        <h1>Pure Color Painting - Quote</h1>
+        <p>Chesterfield, MI | (586) 339-4675</p>
+    </div>
+
+    <main class="quote-main">
+        <div class="container">
+
+            <!-- Client Info -->
+            <div class="client-info">
+                <div class="client-grid">
+                    <div class="client-group">
+                        <label for="client-name">Client Name</label>
+                        <input type="text" id="client-name" placeholder="Enter client name">
+                    </div>
+                    <div class="client-group">
+                        <label for="client-address">Address <span class="optional-label">(optional)</span></label>
+                        <input type="text" id="client-address" placeholder="Enter address">
+                    </div>
+                </div>
+                <div class="client-display"></div>
+            </div>
+
+            <!-- Rooms -->
+            <h2 class="section-heading">Rooms</h2>
+            <div id="rooms-container"></div>
+            <button class="btn-add-room" onclick="addRoom()">+ Add Room</button>
+
+            <!-- Global Inputs -->
+            <div class="global-inputs">
+                <h3>Additional Items</h3>
+                <div class="global-grid">
+                    <div class="global-group">
+                        <label for="door-sides">Total Door Sides</label>
+                        <input type="number" id="door-sides" value="0" min="0" step="1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Panel -->
+            <div class="settings-panel">
+                <button class="settings-toggle" onclick="toggleSettings()">
+                    Rates & Settings
+                    <span class="arrow open" id="settings-arrow">&#9660;</span>
+                </button>
+                <div class="settings-body open" id="settings-body">
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label for="rate-wall-ceiling">Wall / Ceiling Rate (per sq ft)</label>
+                            <div class="input-wrapper">
+                                <span class="prefix">$</span>
+                                <input type="number" id="rate-wall-ceiling" value="1.50" min="0" step="0.01">
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label for="rate-trim">Trim / Baseboard Rate (per lin ft)</label>
+                            <div class="input-wrapper">
+                                <span class="prefix">$</span>
+                                <input type="number" id="rate-trim" value="1.50" min="0" step="0.01">
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label for="rate-door">Door Rate (per side)</label>
+                            <div class="input-wrapper">
+                                <span class="prefix">$</span>
+                                <input type="number" id="rate-door" value="25.00" min="0" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Materials -->
+            <div class="materials-section">
+                <h2 class="section-heading">Materials</h2>
+                <p class="materials-hint">Gallons auto-estimated — walls ~300 sq ft/gal, ceilings ~100 sq ft/gal, trim ~100 lin ft/gal. Adjust as needed.</p>
+                <div class="materials-grid">
+                    <div class="material-card">
+                        <h4>Wall Paint</h4>
+                        <div class="material-row">
+                            <div class="material-field">
+                                <label for="mat-wall-price">Price / gal</label>
+                                <div class="input-wrapper">
+                                    <span class="prefix">$</span>
+                                    <input type="number" id="mat-wall-price" value="49.00" min="0" step="0.01">
+                                </div>
+                            </div>
+                            <div class="material-field">
+                                <label for="mat-wall-gals">Gallons</label>
+                                <input type="number" id="mat-wall-gals" value="0" min="0" step="1">
+                            </div>
+                            <div class="material-total">
+                                <label>Cost</label>
+                                <span class="material-cost" id="mat-wall-cost">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="material-card">
+                        <h4>Ceiling Paint</h4>
+                        <div class="material-row">
+                            <div class="material-field">
+                                <label for="mat-ceiling-price">Price / gal</label>
+                                <div class="input-wrapper">
+                                    <span class="prefix">$</span>
+                                    <input type="number" id="mat-ceiling-price" value="20.00" min="0" step="0.01">
+                                </div>
+                            </div>
+                            <div class="material-field">
+                                <label for="mat-ceiling-gals">Gallons</label>
+                                <input type="number" id="mat-ceiling-gals" value="0" min="0" step="1">
+                            </div>
+                            <div class="material-total">
+                                <label>Cost</label>
+                                <span class="material-cost" id="mat-ceiling-cost">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="material-card">
+                        <h4>Trim Paint</h4>
+                        <div class="material-row">
+                            <div class="material-field">
+                                <label for="mat-trim-price">Price / gal</label>
+                                <div class="input-wrapper">
+                                    <span class="prefix">$</span>
+                                    <input type="number" id="mat-trim-price" value="52.00" min="0" step="0.01">
+                                </div>
+                            </div>
+                            <div class="material-field">
+                                <label for="mat-trim-gals">Gallons</label>
+                                <input type="number" id="mat-trim-gals" value="0" min="0" step="1">
+                            </div>
+                            <div class="material-total">
+                                <label>Cost</label>
+                                <span class="material-cost" id="mat-trim-cost">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="material-card">
+                        <h4>Primer</h4>
+                        <div class="material-row">
+                            <div class="material-field">
+                                <label for="mat-primer-price">Price / gal</label>
+                                <div class="input-wrapper">
+                                    <span class="prefix">$</span>
+                                    <input type="number" id="mat-primer-price" value="22.00" min="0" step="0.01">
+                                </div>
+                            </div>
+                            <div class="material-field">
+                                <label for="mat-primer-gals">Gallons</label>
+                                <input type="number" id="mat-primer-gals" value="0" min="0" step="1">
+                            </div>
+                            <div class="material-total">
+                                <label>Cost</label>
+                                <span class="material-cost" id="mat-primer-cost">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="results-section">
+                <h2>Quote Summary</h2>
+                <table class="results-table" id="results-table">
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Actions -->
+            <div class="action-buttons">
+                <button class="btn-share" onclick="toggleShareView()">Share View</button>
+                <button class="btn-print" onclick="window.print()">Print</button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; <span id="current-year"></span> Pure Color Painting. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/quote.js"></script>
+</body>
+</html>
