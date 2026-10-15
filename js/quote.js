@@ -54,6 +54,12 @@
     const yearEl = document.getElementById('current-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+    // --- Date the estimate (shown on share view and print) ---
+    const estimateDateEl = document.getElementById('estimate-date');
+    if (estimateDateEl) {
+        estimateDateEl.textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
     // --- Settings toggle ---
     window.toggleSettings = function () {
         const body = document.getElementById('settings-body');

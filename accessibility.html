@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Statement | Pure Color Painting</title>
+    <meta name="description" content="Pure Color Painting's commitment to making our website accessible to everyone.">
+    <link rel="canonical" href="https://purecolorpainting.com/accessibility.html">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="" class="logo-img">
+                    <div class="logo-text">
+                        <p class="site-name">Pure Color Painting</p>
+                        <p class="tagline">Quality Craftsmanship Since 2009</p>
+                    </div>
+                </a>
+                <a href="index.html" class="legal-back">Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main" class="legal-page" tabindex="-1">
+        <div class="container">
+            <h1>Accessibility Statement</h1>
+            <p class="legal-updated">Last updated: October 15, 2026</p>
+
+            <p>Pure Color Painting wants everyone, including people with disabilities, to be able to use our website and reach us easily.</p>
+
+            <h2>Our Standard</h2>
+            <p>We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.1, Level AA. These guidelines explain how to make web content easier to use for people with a wide range of disabilities.</p>
+
+            <h2>What We Have Done</h2>
+            <ul>
+                <li>The site can be navigated with a keyboard, with visible focus indicators and a "Skip to main content" link</li>
+                <li>Images have text descriptions, and decorative images are hidden from screen readers</li>
+                <li>Text and buttons meet minimum color contrast requirements</li>
+                <li>Form fields have labels, and form results are announced to screen readers</li>
+                <li>Pages use headings and landmarks so assistive technology can navigate them</li>
+                <li>Animations are reduced when your device is set to reduce motion</li>
+                <li>Pages can be zoomed up to 200% without losing content</li>
+            </ul>
+
+            <h2>Known Limitations</h2>
+            <p>Some content comes from other companies, such as our Facebook page and Google Reviews. We do not control the accessibility of those websites.</p>
+
+            <h2>Feedback and Help</h2>
+            <p>We welcome your feedback. If you have trouble using any part of our website, or need information in a different format, please contact us and we will help you:</p>
+            <ul>
+                <li>Phone: <a href="tel:+15863394675">(586) 339-4675</a></li>
+                <li>Email: <a href="mailto:shaun@purecolorpainting.com">shaun@purecolorpainting.com</a></li>
+            </ul>
+            <p>Please tell us the page you were on and the problem you ran into. We will do our best to respond within two business days.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer legal-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <nav class="footer-legal" aria-label="Legal">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="accessibility.html" aria-current="page">Accessibility</a>
+                    <button type="button" class="cookie-settings-link" data-cookie-settings>Cookie Settings</button>
+                </nav>
+                <p>&copy; <span id="current-year"></span> Pure Color Painting. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+    <script src="js/consent.js"></script>
+</body>
+</html>
