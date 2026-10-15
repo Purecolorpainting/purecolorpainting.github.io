@@ -592,6 +592,15 @@
             color: var(--color-primary);
         }
 
+        .estimate-disclaimer {
+            margin-top: 20px;
+            padding: 12px 15px;
+            background: var(--color-light);
+            border-left: 3px solid var(--color-secondary);
+            font-size: 0.85rem;
+            color: var(--color-text);
+        }
+
         /* Action Buttons */
         .action-buttons {
             display: flex;
@@ -888,6 +897,14 @@
             .results-table tr.total-row td {
                 font-size: 1rem !important;
                 padding-top: 4px !important;
+            }
+
+            .estimate-disclaimer {
+                margin-top: 10px !important;
+                padding: 6px 8px !important;
+                font-size: 0.7rem !important;
+                border: 1px solid #999 !important;
+                background: none !important;
             }
 
             .quote-main {
@@ -1239,8 +1256,8 @@
         <div class="pin-gate-box">
             <img src="images/logo.png" alt="Pure Color Painting">
             <h2>Enter PIN to continue</h2>
-            <input type="password" id="pin-input" maxlength="4" inputmode="numeric" pattern="\d{4}" autofocus>
-            <p class="pin-gate-hint">4-digit PIN required</p>
+            <input type="password" id="pin-input" aria-label="4-digit PIN" aria-describedby="pin-hint" maxlength="4" inputmode="numeric" pattern="\d{4}" autofocus>
+            <p class="pin-gate-hint" id="pin-hint">4-digit PIN required</p>
         </div>
     </div>
 
@@ -1266,8 +1283,9 @@
     <!-- Print Header -->
     <div class="print-header">
         <img src="images/logo.png" alt="Pure Color Painting" class="print-logo">
-        <h1>Pure Color Painting - Quote</h1>
+        <h1>Pure Color Painting - Estimate</h1>
         <p>Chesterfield, MI | (586) 339-4675</p>
+        <p>Prepared <span id="estimate-date"></span></p>
     </div>
 
     <main class="quote-main">
@@ -1427,10 +1445,17 @@
 
             <!-- Results -->
             <div class="results-section">
-                <h2>Quote Summary</h2>
+                <h2>Estimate Summary</h2>
                 <table class="results-table" id="results-table">
                     <tbody></tbody>
                 </table>
+                <p class="estimate-disclaimer">
+                    <strong>Estimate only &mdash; not a contract.</strong>
+                    This is a preliminary estimate based on the measurements and information available when it was prepared.
+                    It is not an offer, a binding price, or an agreement to perform any work, and it may contain errors.
+                    Final pricing and scope of work are set only in a written agreement signed by Pure Color Painting.
+                    Pure Color Painting is not bound by any estimate that contains errors, has been altered, or was not issued by Pure Color Painting.
+                </p>
             </div>
 
             <!-- Actions -->

@@ -6,6 +6,17 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+
+      // Analytics cookies stay off until the visitor accepts them (see js/consent.js)
+      var storedConsent = null;
+      try { storedConsent = localStorage.getItem('pcp_cookie_consent'); } catch (e) {}
+      gtag('consent', 'default', {
+        analytics_storage: storedConsent === 'granted' ? 'granted' : 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+
       gtag('js', new Date());
 
       gtag('config', 'G-0TB35C2PWF');
@@ -106,14 +117,6 @@
         "sameAs": [
             "https://facebook.com/pcpainting"
         ],
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "5.0",
-            "bestRating": "5",
-            "worstRating": "1",
-            "ratingCount": "4",
-            "reviewCount": "4"
-        },
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Painting Services",
@@ -178,18 +181,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
                 <a href="#home" class="logo">
-                    <img src="images/logo.png" alt="Pure Color Painting" class="logo-img">
+                    <img src="images/logo.png" alt="" class="logo-img">
                     <div class="logo-text">
                         <h1>Pure Color Painting</h1>
                         <p class="tagline">Quality Craftsmanship Since 2009</p>
                     </div>
                 </a>
-                <nav class="nav">
+                <nav class="nav" id="main-nav" aria-label="Main">
                     <ul>
                         <li><a href="#home">Home</a></li>
                         <li><a href="#services">Services</a></li>
@@ -198,15 +203,16 @@
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </nav>
-                <button class="mobile-menu-btn" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="main-nav">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </button>
             </div>
         </div>
     </header>
 
+    <main id="main" tabindex="-1">
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-overlay"></div>
@@ -236,22 +242,22 @@
             <h2>Why Choose Us</h2>
             <div class="why-grid">
                 <div class="why-card">
-                    <div class="why-icon">&#128197;</div>
+                    <div class="why-icon" aria-hidden="true">&#128197;</div>
                     <h3>Since 2009</h3>
                     <p>Over 15 years of trusted painting experience in the Metro Detroit area.</p>
                 </div>
                 <div class="why-card">
-                    <div class="why-icon">&#9989;</div>
+                    <div class="why-icon" aria-hidden="true">&#9989;</div>
                     <h3>Licensed & Insured</h3>
                     <p>Fully licensed and insured for your peace of mind on every project.</p>
                 </div>
                 <div class="why-card">
-                    <div class="why-icon">&#128176;</div>
+                    <div class="why-icon" aria-hidden="true">&#128176;</div>
                     <h3>Free Estimates</h3>
                     <p>No-obligation quotes with transparent, competitive pricing.</p>
                 </div>
                 <div class="why-card">
-                    <div class="why-icon">&#11088;</div>
+                    <div class="why-icon" aria-hidden="true">&#11088;</div>
                     <h3>100% Satisfaction</h3>
                     <p>We stand behind our work and aren't done until you're completely happy.</p>
                 </div>
@@ -265,32 +271,32 @@
             <h2>Our Services</h2>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">🏠</div>
+                    <div class="service-icon" aria-hidden="true">🏠</div>
                     <h3>Residential Interior</h3>
                     <p>Transform your living spaces with expert interior painting. We handle everything from single rooms to whole-house projects.</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">🏡</div>
+                    <div class="service-icon" aria-hidden="true">🏡</div>
                     <h3>Residential Exterior</h3>
                     <p>Boost your curb appeal with professional exterior painting that protects and beautifies your home.</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">🏢</div>
+                    <div class="service-icon" aria-hidden="true">🏢</div>
                     <h3>Commercial Painting</h3>
                     <p>Professional painting solutions for offices, retail spaces, and commercial properties of all sizes.</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">🪵</div>
+                    <div class="service-icon" aria-hidden="true">🪵</div>
                     <h3>Deck Staining</h3>
                     <p>Restore and protect your outdoor living spaces with quality deck staining services.</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">🧱</div>
+                    <div class="service-icon" aria-hidden="true">🧱</div>
                     <h3>Drywall Repair & Wallpaper Removal</h3>
                     <p>Expert drywall repair, patching, and wallpaper removal to ensure smooth, flawless surfaces before painting.</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">💦</div>
+                    <div class="service-icon" aria-hidden="true">💦</div>
                     <h3>Powerwashing</h3>
                     <p>Professional powerwashing to clean and restore siding, decks, and other exterior surfaces.</p>
                 </div>
@@ -303,10 +309,10 @@
         <div class="container">
             <h2>Our Work</h2>
             <div class="portfolio-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="residential">Residential</button>
-                <button class="filter-btn" data-filter="commercial">Commercial</button>
-                <button class="filter-btn" data-filter="decks">Decks</button>
+                <button class="filter-btn active" aria-pressed="true" data-filter="all">All</button>
+                <button class="filter-btn" aria-pressed="false" data-filter="residential">Residential</button>
+                <button class="filter-btn" aria-pressed="false" data-filter="commercial">Commercial</button>
+                <button class="filter-btn" aria-pressed="false" data-filter="decks">Decks</button>
             </div>
             <div class="portfolio-grid" id="portfolio-grid">
                 <!-- Portfolio items loaded dynamically from data/portfolio.json -->
@@ -324,9 +330,10 @@
             <div class="review-cta">
                 <p>Enjoyed our work? We'd love to hear from you!</p>
                 <a href="https://g.page/r/CeQkhyG_F4FwEBM/review" target="_blank" rel="noopener noreferrer">
-                    <img src="images/google-review-qr.png" alt="Scan to leave us a Google review" class="review-qr">
+                    <img src="images/google-review-qr.png" alt="QR code: scan to leave us a Google review" class="review-qr">
+                    <span class="visually-hidden">(opens in new tab)</span>
                 </a>
-                <a href="https://g.page/r/CeQkhyG_F4FwEBM/review" target="_blank" rel="noopener noreferrer" class="review-button">Leave Us a Review</a>
+                <a href="https://g.page/r/CeQkhyG_F4FwEBM/review" target="_blank" rel="noopener noreferrer" class="review-button">Leave Us a Review<span class="visually-hidden"> (opens in new tab)</span></a>
                 <p class="review-cta-subtitle">Scan the QR code or tap the button above</p>
             </div>
         </div>
@@ -344,29 +351,31 @@
                     <p><strong>Email:</strong> <a href="mailto:shaun@purecolorpainting.com">shaun@purecolorpainting.com</a></p>
                     <p><strong>Service Area:</strong> Chesterfield, MI & Surrounding Areas</p>
                     <div class="social-links">
-                        <a href="https://facebook.com/pcpainting" target="_blank" rel="noopener" aria-label="Facebook">
-                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                        <a href="https://facebook.com/pcpainting" target="_blank" rel="noopener noreferrer" aria-label="Facebook (opens in new tab)">
+                            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
                         </a>
                     </div>
-                    <a href="images/business_card.jpg" download="PureColorPainting_BusinessCard.jpg" title="Click to download business card" class="business-card-link">
+                    <a href="images/business_card.jpg" download="PureColorPainting_BusinessCard.jpg" class="business-card-link">
                         <img src="images/business_card.jpg" alt="Pure Color Painting Business Card - Shaun Jett, Owner" class="business-card-img">
-                        <span class="download-hint">Click to download</span>
+                        <span class="download-hint">Download business card</span>
                     </a>
                 </div>
                 <div class="contact-form-wrapper">
                     <h3>Request a Free Estimate</h3>
+                    <p class="form-note">All fields are required.</p>
                     <form class="contact-form" id="contact-form">
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
+                            <input type="text" id="name" name="name" autocomplete="name" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
+                            <input type="email" id="email" name="email" autocomplete="email" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="tel" id="phone" name="phone" required pattern="\(\d{3}\) \d{3}-\d{4}" title="Please enter a valid 10-digit phone number">
+                            <span class="form-hint" id="phone-hint">10 digits, e.g. (586) 555-1234</span>
+                            <input type="tel" id="phone" name="phone" autocomplete="tel-national" aria-describedby="phone-hint" required pattern="\(\d{3}\) \d{3}-\d{4}" title="Please enter a valid 10-digit phone number">
                         </div>
                         <div class="form-group">
                             <label for="service">Service Interested In</label>
@@ -391,63 +400,72 @@
                             <a href="tel:+15863394675">(586) 339-4675</a> or email
                             <a href="mailto:shaun@purecolorpainting.com">shaun@purecolorpainting.com</a>.
                         </p>
+                        <p class="visually-hidden" id="form-status" role="status"></p>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-columns">
                 <div class="footer-col">
-                    <h4>Contact Us</h4>
+                    <h2>Contact Us</h2>
                     <p>Shaun Jett, Owner</p>
                     <p><a href="tel:+15863394675">(586) 339-4675</a></p>
                     <p><a href="mailto:shaun@purecolorpainting.com">shaun@purecolorpainting.com</a></p>
                     <div class="footer-social">
-                        <a href="https://facebook.com/pcpainting" target="_blank" rel="noopener" aria-label="Facebook">
-                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                        <a href="https://facebook.com/pcpainting" target="_blank" rel="noopener noreferrer" aria-label="Facebook (opens in new tab)">
+                            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
                         </a>
                     </div>
                 </div>
                 <div class="footer-col">
-                    <h4>Service Area</h4>
+                    <h2>Service Area</h2>
                     <p class="service-area-list">Chesterfield, Macomb, Clinton Twp, New Baltimore, Mt. Clemens, Shelby Twp, Sterling Heights, St. Clair Shores, Harrison Twp, Fraser, Warren, Roseville, Eastpointe, Troy, Rochester Hills & surrounding areas</p>
                 </div>
                 <div class="footer-col">
-                    <h4>Hours of Operation</h4>
+                    <h2>Hours of Operation</h2>
                     <p>Mon–Fri: 7:30 AM – 5:00 PM</p>
                     <p>Saturday: 8:00 AM – 2:00 PM</p>
                     <p>Sunday: Closed</p>
                 </div>
                 <div class="footer-col">
-                    <h4>We Accept</h4>
+                    <h2>We Accept</h2>
                     <div class="payment-icons">
-                        <div class="payment-icon" aria-label="Visa">
-                            <svg viewBox="0 0 48 32" width="48" height="32"><rect width="48" height="32" rx="4" fill="#fff"/><path d="M19.5 21h-3l1.9-11.5h3L19.5 21zm12.7-11.2c-.6-.2-1.5-.5-2.7-.5-3 0-5.1 1.5-5.1 3.7 0 1.6 1.5 2.5 2.6 3.1 1.2.5 1.6.9 1.6 1.4 0 .7-.9 1.1-1.8 1.1-1.2 0-1.9-.2-2.9-.6l-.4-.2-.4 2.5c.7.3 2.1.6 3.5.6 3.2 0 5.2-1.5 5.2-3.8 0-1.3-.8-2.3-2.5-3.1-1-.5-1.7-.9-1.7-1.4 0-.5.5-1 1.7-1 1 0 1.7.2 2.2.4l.3.1.4-2.3zm7.8-.3h-2.3c-.7 0-1.3.2-1.6 1L32 21h3.2l.6-1.8h3.9l.4 1.8H43l-2.6-11.5h-0.4zm-3.2 7.4l1.2-3.2.4-1.1.2 1.1.7 3.2h-2.5zM16.3 9.5L13.4 17l-.3-1.5c-.5-1.8-2.2-3.8-4.1-4.8l2.7 10.2h3.2l4.8-11.5h-3.4v.1z" fill="#1A1F71"/><path d="M10.3 9.5H5.1l-.1.3c3.8.9 6.3 3.2 7.3 5.9l-1.1-5.2c-.2-.8-.7-1-1.4-1h.5z" fill="#F9A533"/></svg>
+                        <div class="payment-icon" role="img" aria-label="Visa">
+                            <svg viewBox="0 0 48 32" width="48" height="32" aria-hidden="true" focusable="false"><rect width="48" height="32" rx="4" fill="#fff"/><path d="M19.5 21h-3l1.9-11.5h3L19.5 21zm12.7-11.2c-.6-.2-1.5-.5-2.7-.5-3 0-5.1 1.5-5.1 3.7 0 1.6 1.5 2.5 2.6 3.1 1.2.5 1.6.9 1.6 1.4 0 .7-.9 1.1-1.8 1.1-1.2 0-1.9-.2-2.9-.6l-.4-.2-.4 2.5c.7.3 2.1.6 3.5.6 3.2 0 5.2-1.5 5.2-3.8 0-1.3-.8-2.3-2.5-3.1-1-.5-1.7-.9-1.7-1.4 0-.5.5-1 1.7-1 1 0 1.7.2 2.2.4l.3.1.4-2.3zm7.8-.3h-2.3c-.7 0-1.3.2-1.6 1L32 21h3.2l.6-1.8h3.9l.4 1.8H43l-2.6-11.5h-0.4zm-3.2 7.4l1.2-3.2.4-1.1.2 1.1.7 3.2h-2.5zM16.3 9.5L13.4 17l-.3-1.5c-.5-1.8-2.2-3.8-4.1-4.8l2.7 10.2h3.2l4.8-11.5h-3.4v.1z" fill="#1A1F71"/><path d="M10.3 9.5H5.1l-.1.3c3.8.9 6.3 3.2 7.3 5.9l-1.1-5.2c-.2-.8-.7-1-1.4-1h.5z" fill="#F9A533"/></svg>
                         </div>
-                        <div class="payment-icon" aria-label="Mastercard">
-                            <svg viewBox="0 0 48 32" width="48" height="32"><rect width="48" height="32" rx="4" fill="#fff"/><circle cx="19" cy="16" r="9" fill="#EB001B"/><circle cx="29" cy="16" r="9" fill="#F79E1B"/><path d="M24 9.3a9 9 0 0 0-3.4 6.7A9 9 0 0 0 24 22.7a9 9 0 0 0 3.4-6.7A9 9 0 0 0 24 9.3z" fill="#FF5F00"/></svg>
+                        <div class="payment-icon" role="img" aria-label="Mastercard">
+                            <svg viewBox="0 0 48 32" width="48" height="32" aria-hidden="true" focusable="false"><rect width="48" height="32" rx="4" fill="#fff"/><circle cx="19" cy="16" r="9" fill="#EB001B"/><circle cx="29" cy="16" r="9" fill="#F79E1B"/><path d="M24 9.3a9 9 0 0 0-3.4 6.7A9 9 0 0 0 24 22.7a9 9 0 0 0 3.4-6.7A9 9 0 0 0 24 9.3z" fill="#FF5F00"/></svg>
                         </div>
-                        <div class="payment-icon" aria-label="Discover">
-                            <svg viewBox="0 0 48 32" width="48" height="32"><rect width="48" height="32" rx="4" fill="#fff"/><rect x="1" y="16" width="46" height="15" rx="3" fill="#F48120"/><text x="24" y="15" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="bold" fill="#231F20">DISCOVER</text></svg>
+                        <div class="payment-icon" role="img" aria-label="Discover">
+                            <svg viewBox="0 0 48 32" width="48" height="32" aria-hidden="true" focusable="false"><rect width="48" height="32" rx="4" fill="#fff"/><rect x="1" y="16" width="46" height="15" rx="3" fill="#F48120"/><text x="24" y="15" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="bold" fill="#231F20">DISCOVER</text></svg>
                         </div>
                     </div>
                     <p class="licensed-insured">Licensed & Insured</p>
                 </div>
             </div>
             <div class="footer-bottom">
+                <nav class="footer-legal" aria-label="Legal">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="accessibility.html">Accessibility</a>
+                    <button type="button" class="cookie-settings-link" data-cookie-settings>Cookie Settings</button>
+                </nav>
                 <p>&copy; <span id="current-year"></span> Pure Color Painting. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Back to Top Button -->
-    <button class="back-to-top" aria-label="Back to top">&#9650;</button>
+    <button class="back-to-top" aria-label="Back to top"><span aria-hidden="true">&#9650;</span></button>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/consent.js"></script>
 </body>
 </html>

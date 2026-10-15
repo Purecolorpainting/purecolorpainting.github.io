@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
+ * Respect the visitor's reduced motion setting for scripted scrolling
+ */
+function scrollBehavior() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
+
+/**
  * Load portfolio items from JSON file
  */
 async function loadPortfolio() {
@@ -70,7 +77,7 @@ function renderPortfolio(items, filter = 'all') {
                         </div>
                     </div>
                     <div class="overlay">
-                        <h4>${item.title}</h4>
+                        <h3>${item.title}</h3>
                         ${item.description ? `<p>${item.description}</p>` : ''}
                     </div>
                 </div>
@@ -81,7 +88,7 @@ function renderPortfolio(items, filter = 'all') {
             <div class="portfolio-item" data-category="${item.category}">
                 <img src="${item.image}" alt="${item.title}" loading="lazy">
                 <div class="overlay">
-                    <h4>${item.title}</h4>
+                    <h3>${item.title}</h3>
                     ${item.description ? `<p>${item.description}</p>` : ''}
                 </div>
             </div>
@@ -116,14 +123,17 @@ async function loadTestimonials() {
 function renderTestimonials(testimonials) {
     const grid = document.getElementById('testimonials-grid');
 
-    grid.innerHTML = testimonials.map(t => `
+    grid.innerHTML = testimonials.map(t => {
+        const rating = t.rating || 5;
+        return `
         <div class="testimonial-card">
-            <div class="testimonial-stars">${'&#9733;'.repeat(t.rating || 5)}${'&#9734;'.repeat(5 - (t.rating || 5))}</div>
+            <div class="testimonial-stars" role="img" aria-label="Rated ${rating} out of 5 stars">${'&#9733;'.repeat(rating)}${'&#9734;'.repeat(5 - rating)}</div>
             <p>${t.text}</p>
             <div class="testimonial-author">${t.author}</div>
             ${t.service ? `<div class="testimonial-location">${t.service}</div>` : ''}
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
 /**
@@ -134,17 +144,29 @@ function initMobileMenu() {
     const nav = document.querySelector('.nav');
 
     if (menuBtn && nav) {
+        function closeMenu() {
+            nav.classList.remove('active');
+            menuBtn.classList.remove('active');
+            menuBtn.setAttribute('aria-expanded', 'false');
+        }
+
         menuBtn.addEventListener('click', function() {
-            nav.classList.toggle('active');
-            this.classList.toggle('active');
+            const isOpen = nav.classList.toggle('active');
+            this.classList.toggle('active', isOpen);
+            this.setAttribute('aria-expanded', String(isOpen));
         });
 
         // Close menu when clicking a link
         nav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                nav.classList.remove('active');
-                menuBtn.classList.remove('active');
-            });
+            link.addEventListener('click', closeMenu);
+        });
+
+        // Close menu with Escape and return focus to the button
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && nav.classList.contains('active')) {
+                closeMenu();
+                menuBtn.focus();
+            }
         });
     }
 }
@@ -158,8 +180,12 @@ function initPortfolioFilters() {
     filterBtns.forEach(btn => {
         btn.addEventListener('click', async function() {
             // Update active state
-            filterBtns.forEach(b => b.classList.remove('active'));
+            filterBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
             this.classList.add('active');
+            this.setAttribute('aria-pressed', 'true');
 
             // Filter portfolio
             const filter = this.dataset.filter;
@@ -207,7 +233,9 @@ function initContactForm() {
             submitBtn.disabled = true;
 
             var formError = form.querySelector('#form-error');
+            var formStatus = form.querySelector('#form-status');
             formError.hidden = true;
+            formStatus.textContent = 'Sending your message...';
 
             var service = form.querySelector('#service');
 
@@ -219,6 +247,7 @@ function initContactForm() {
                 message: form.querySelector('#message').value
             }).then(function() {
                 submitBtn.textContent = 'Message Sent!';
+                formStatus.textContent = 'Thank you! Your message has been sent. We will be in touch soon.';
                 form.reset();
                 setTimeout(function() {
                     submitBtn.textContent = originalText;
@@ -227,6 +256,7 @@ function initContactForm() {
             }, function(error) {
                 submitBtn.textContent = 'Failed to Send';
                 submitBtn.disabled = false;
+                formStatus.textContent = '';
                 formError.hidden = false;
                 console.error('EmailJS error:', error);
                 setTimeout(function() {
@@ -253,7 +283,9 @@ function initBackToTop() {
     });
 
     btn.addEventListener('click', function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: scrollBehavior() });
+        // Move keyboard focus back to the top of the page too
+        document.querySelector('.skip-link').focus({ preventScroll: true });
     });
 }
 
@@ -272,8 +304,14 @@ function initSmoothScroll() {
 
                 window.scrollTo({
                     top: offsetPosition,
-                    behavior: 'smooth'
+                    behavior: scrollBehavior()
                 });
+
+                // Move keyboard focus to the section so the next Tab continues from there
+                if (!target.hasAttribute('tabindex')) {
+                    target.setAttribute('tabindex', '-1');
+                }
+                target.focus({ preventScroll: true });
             }
         });
     });
