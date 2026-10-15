@@ -206,6 +206,9 @@ function initContactForm() {
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
+            var formError = form.querySelector('#form-error');
+            formError.hidden = true;
+
             var service = form.querySelector('#service');
 
             emailjs.send('service_bwjjwmh', 'template_8n9bi8e', {
@@ -224,6 +227,7 @@ function initContactForm() {
             }, function(error) {
                 submitBtn.textContent = 'Failed to Send';
                 submitBtn.disabled = false;
+                formError.hidden = false;
                 console.error('EmailJS error:', error);
                 setTimeout(function() {
                     submitBtn.textContent = originalText;
