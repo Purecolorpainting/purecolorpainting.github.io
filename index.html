@@ -175,7 +175,7 @@
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -314,10 +314,35 @@
                 <button class="filter-btn" aria-pressed="false" data-filter="commercial">Commercial</button>
                 <button class="filter-btn" aria-pressed="false" data-filter="decks">Decks</button>
             </div>
-            <div class="portfolio-grid" id="portfolio-grid">
-                <!-- Portfolio items loaded dynamically from data/portfolio.json -->
+            <div class="portfolio-carousel" id="portfolio-carousel" role="region" aria-roledescription="carousel" aria-label="Project photos">
+                <div class="carousel-stage" id="carousel-stage">
+                    <!-- Slides loaded dynamically from data/portfolio.json -->
+                </div>
+                <button class="carousel-btn carousel-prev" type="button" aria-label="Previous project">&#8249;</button>
+                <button class="carousel-btn carousel-next" type="button" aria-label="Next project">&#8250;</button>
+            </div>
+            <div class="carousel-caption" id="carousel-caption" aria-live="off"></div>
+            <div class="carousel-controls">
+                <button class="carousel-pause" id="carousel-pause" type="button" aria-label="Pause slideshow">&#10074;&#10074;</button>
+                <span class="carousel-counter" id="carousel-counter"></span>
+                <button class="btn btn-primary view-all-btn" id="view-all-btn" type="button" aria-haspopup="dialog">View All Projects</button>
             </div>
         </div>
+        <dialog class="portfolio-dialog" id="portfolio-dialog" aria-labelledby="portfolio-dialog-title">
+            <div class="portfolio-dialog-header">
+                <h2 id="portfolio-dialog-title">All Projects</h2>
+                <button class="portfolio-dialog-close" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="portfolio-filters">
+                <button class="filter-btn active" aria-pressed="true" data-filter="all">All</button>
+                <button class="filter-btn" aria-pressed="false" data-filter="residential">Residential</button>
+                <button class="filter-btn" aria-pressed="false" data-filter="commercial">Commercial</button>
+                <button class="filter-btn" aria-pressed="false" data-filter="decks">Decks</button>
+            </div>
+            <div class="portfolio-groups" id="portfolio-grid">
+                <!-- Portfolio items loaded dynamically from data/portfolio.json -->
+            </div>
+        </dialog>
     </section>
 
     <!-- Testimonials Section -->
@@ -465,7 +490,7 @@
     <button class="back-to-top" aria-label="Back to top"><span aria-hidden="true">&#9650;</span></button>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=3"></script>
     <script src="js/consent.js"></script>
 </body>
 </html>

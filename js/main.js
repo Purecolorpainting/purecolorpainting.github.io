@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize components
     initMobileMenu();
+    initPortfolioCarousel();
+    initPortfolioDialog();
     initPortfolioFilters();
     initContactForm();
     initSmoothScroll();
@@ -27,73 +29,286 @@ function scrollBehavior() {
 }
 
 /**
+ * Portfolio state shared by the carousel and the "View All" grid
+ */
+const PORTFOLIO_ROTATE_MS = 6000;
+const PORTFOLIO_EMPTY = '<div class="portfolio-empty"><p>Portfolio coming soon! Check back for photos of our recent projects.</p></div>';
+const PORTFOLIO_CATEGORY_LABELS = {
+    residential: 'Residential',
+    commercial: 'Commercial',
+    decks: 'Decks'
+};
+const PORTFOLIO_NONE_IN_CATEGORY = '<div class="portfolio-empty"><p>No projects found in this category.</p></div>';
+
+const portfolio = {
+    items: [],
+    slides: [],
+    index: 0,
+    timer: null,
+    paused: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    hovered: false,
+    dialogOpen: false
+};
+
+/**
  * Load portfolio items from JSON file
  */
 async function loadPortfolio() {
-    const grid = document.getElementById('portfolio-grid');
-
     try {
         const response = await fetch('data/portfolio.json');
         const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-            renderPortfolio(data.items);
-        } else {
-            grid.innerHTML = '<div class="portfolio-empty"><p>Portfolio coming soon! Check back for photos of our recent projects.</p></div>';
-        }
+        portfolio.items = data.items || [];
     } catch (error) {
         console.log('Portfolio data not found, showing placeholder');
-        grid.innerHTML = '<div class="portfolio-empty"><p>Portfolio coming soon! Check back for photos of our recent projects.</p></div>';
     }
+    applyPortfolioFilter('all');
 }
 
 /**
- * Render portfolio items to the grid
+ * Narrow the carousel and grid to one category
  */
-function renderPortfolio(items, filter = 'all') {
-    const grid = document.getElementById('portfolio-grid');
-    const filteredItems = filter === 'all'
-        ? items
-        : items.filter(item => item.category === filter);
+function applyPortfolioFilter(filter) {
+    portfolio.slides = filter === 'all'
+        ? portfolio.items
+        : portfolio.items.filter(item => item.category === filter);
 
-    if (filteredItems.length === 0) {
-        grid.innerHTML = '<div class="portfolio-empty"><p>No projects found in this category.</p></div>';
-        return;
-    }
+    renderPortfolioGrid();
+    showSlide(0);
+}
 
-    grid.innerHTML = filteredItems.map(item => {
-        // Check if this is a before/after item
-        if (item.beforeImage) {
-            return `
-                <div class="portfolio-item portfolio-item-comparison" data-category="${item.category}">
-                    <div class="comparison-container">
-                        <div class="comparison-image comparison-before">
-                            <img src="${item.beforeImage}" alt="${item.title} - Before" loading="lazy">
-                            <span class="comparison-label">Before</span>
-                        </div>
-                        <div class="comparison-image comparison-after">
-                            <img src="${item.image}" alt="${item.title} - After" loading="lazy">
-                            <span class="comparison-label">After</span>
-                        </div>
-                    </div>
-                    <div class="overlay">
-                        <h3>${item.title}</h3>
-                        ${item.description ? `<p>${item.description}</p>` : ''}
-                    </div>
-                </div>
-            `;
-        }
-        // Standard single image item
+/**
+ * Build the markup for one carousel slide
+ */
+function slideMarkup(item) {
+    if (item.beforeImage) {
         return `
-            <div class="portfolio-item" data-category="${item.category}">
-                <img src="${item.image}" alt="${item.title}" loading="lazy">
-                <div class="overlay">
-                    <h3>${item.title}</h3>
-                    ${item.description ? `<p>${item.description}</p>` : ''}
+            <div class="slide slide-comparison">
+                <div class="comparison-image comparison-before">
+                    <img src="${item.beforeImage}" alt="${item.title} - Before">
+                    <span class="comparison-label">Before</span>
+                </div>
+                <div class="comparison-image comparison-after">
+                    <img src="${item.image}" alt="${item.title} - After">
+                    <span class="comparison-label">After</span>
                 </div>
             </div>
         `;
-    }).join('');
+    }
+    // Single photos sit over a blurred copy so they fill the stage without cropping
+    return `
+        <div class="slide slide-single">
+            <img class="slide-backdrop" src="${item.image}" alt="" aria-hidden="true">
+            <img class="slide-photo" src="${item.image}" alt="${item.title}">
+        </div>
+    `;
+}
+
+/**
+ * Show the slide at the given index (wraps around at either end)
+ */
+function showSlide(index) {
+    const carousel = document.getElementById('portfolio-carousel');
+    const stage = document.getElementById('carousel-stage');
+    const caption = document.getElementById('carousel-caption');
+    const counter = document.getElementById('carousel-counter');
+    const slides = portfolio.slides;
+
+    carousel.classList.toggle('is-empty', slides.length === 0);
+    carousel.classList.toggle('is-single', slides.length < 2);
+
+    if (slides.length === 0) {
+        stage.innerHTML = portfolio.items.length === 0 ? PORTFOLIO_EMPTY : PORTFOLIO_NONE_IN_CATEGORY;
+        caption.innerHTML = '';
+        counter.textContent = '';
+        restartRotation();
+        return;
+    }
+
+    portfolio.index = (index + slides.length) % slides.length;
+
+    const item = slides[portfolio.index];
+    stage.innerHTML = slideMarkup(item);
+    caption.innerHTML = `<h3>${item.title}</h3>${item.description ? `<p>${item.description}</p>` : ''}`;
+    counter.textContent = `${portfolio.index + 1} / ${slides.length}`;
+
+    // Preload the next slide so rotation doesn't flash a blank stage
+    const next = slides[(portfolio.index + 1) % slides.length];
+    [next.image, next.beforeImage].filter(Boolean).forEach(src => {
+        new Image().src = src;
+    });
+
+    restartRotation();
+}
+
+/**
+ * Schedule the next automatic advance, unless rotation is paused
+ */
+function restartRotation() {
+    clearTimeout(portfolio.timer);
+    portfolio.timer = null;
+
+    const rotating = !portfolio.paused && !portfolio.hovered && !portfolio.dialogOpen && portfolio.slides.length > 1;
+    if (rotating) {
+        portfolio.timer = setTimeout(() => showSlide(portfolio.index + 1), PORTFOLIO_ROTATE_MS);
+    }
+
+    // Only announce slide changes to screen readers when the visitor is driving
+    document.getElementById('carousel-caption').setAttribute('aria-live', rotating ? 'off' : 'polite');
+}
+
+/**
+ * Render every project in the current category to the "View All" grid
+ */
+function renderPortfolioGrid() {
+    const grid = document.getElementById('portfolio-grid');
+    const slides = portfolio.slides;
+
+    if (slides.length === 0) {
+        grid.innerHTML = portfolio.items.length === 0 ? PORTFOLIO_EMPTY : PORTFOLIO_NONE_IN_CATEGORY;
+        return;
+    }
+
+    // Group by category so each type gets its own heading; indexes still point into portfolio.slides
+    const groups = {};
+    slides.forEach((item, i) => {
+        (groups[item.category] = groups[item.category] || []).push({ item, i });
+    });
+
+    grid.innerHTML = Object.keys(PORTFOLIO_CATEGORY_LABELS)
+        .concat(Object.keys(groups).filter(c => !(c in PORTFOLIO_CATEGORY_LABELS)))
+        .filter(category => groups[category])
+        .map(category => `
+            <section class="portfolio-group">
+                <h3 class="portfolio-group-title">${PORTFOLIO_CATEGORY_LABELS[category] || category}</h3>
+                <div class="portfolio-grid">
+                    ${groups[category].map(({ item, i }) => portfolioGridItemMarkup(item, i)).join('')}
+                </div>
+            </section>
+        `).join('');
+}
+
+/**
+ * Build the markup for one clickable project in the "View All" grid
+ */
+function portfolioGridItemMarkup(item, i) {
+    const overlay = `
+        <span class="overlay">
+            <span class="overlay-title">${item.title}</span>
+            ${item.description ? `<span class="overlay-desc">${item.description}</span>` : ''}
+        </span>
+    `;
+    // Check if this is a before/after item
+    if (item.beforeImage) {
+        return `
+            <button type="button" class="portfolio-item portfolio-item-comparison" data-index="${i}" aria-label="View ${item.title}">
+                <span class="comparison-container">
+                    <span class="comparison-image comparison-before">
+                        <img src="${item.beforeImage}" alt="" loading="lazy">
+                        <span class="comparison-label">Before</span>
+                    </span>
+                    <span class="comparison-image comparison-after">
+                        <img src="${item.image}" alt="" loading="lazy">
+                        <span class="comparison-label">After</span>
+                    </span>
+                </span>
+                ${overlay}
+            </button>
+        `;
+    }
+    // Standard single image item
+    return `
+        <button type="button" class="portfolio-item" data-index="${i}" aria-label="View ${item.title}">
+            <img src="${item.image}" alt="" loading="lazy">
+            ${overlay}
+        </button>
+    `;
+}
+
+/**
+ * Initialize carousel arrows, pause button, swipe, and keyboard controls
+ */
+function initPortfolioCarousel() {
+    const carousel = document.getElementById('portfolio-carousel');
+    const stage = document.getElementById('carousel-stage');
+    const pauseBtn = document.getElementById('carousel-pause');
+
+    carousel.querySelector('.carousel-prev').addEventListener('click', () => showSlide(portfolio.index - 1));
+    carousel.querySelector('.carousel-next').addEventListener('click', () => showSlide(portfolio.index + 1));
+
+    function updatePauseBtn() {
+        pauseBtn.innerHTML = portfolio.paused ? '&#9654;' : '&#10074;&#10074;';
+        pauseBtn.setAttribute('aria-label', portfolio.paused ? 'Play slideshow' : 'Pause slideshow');
+    }
+    updatePauseBtn();
+
+    pauseBtn.addEventListener('click', function() {
+        portfolio.paused = !portfolio.paused;
+        updatePauseBtn();
+        restartRotation();
+    });
+
+    // Hold still while the visitor is looking at or using the carousel
+    function setHovered(hovered) {
+        portfolio.hovered = hovered;
+        restartRotation();
+    }
+    carousel.addEventListener('mouseenter', () => setHovered(true));
+    carousel.addEventListener('mouseleave', () => setHovered(false));
+    carousel.addEventListener('focusin', () => setHovered(true));
+    carousel.addEventListener('focusout', e => {
+        if (!carousel.contains(e.relatedTarget)) setHovered(false);
+    });
+
+    carousel.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft') showSlide(portfolio.index - 1);
+        if (e.key === 'ArrowRight') showSlide(portfolio.index + 1);
+    });
+
+    let touchStartX = null;
+    stage.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    stage.addEventListener('touchend', e => {
+        if (touchStartX === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        touchStartX = null;
+        if (Math.abs(dx) > 40) showSlide(portfolio.index + (dx < 0 ? 1 : -1));
+    });
+}
+
+/**
+ * Initialize the "View All" dialog; picking a project shows it in the carousel
+ */
+function initPortfolioDialog() {
+    const dialog = document.getElementById('portfolio-dialog');
+    const grid = document.getElementById('portfolio-grid');
+
+    document.getElementById('view-all-btn').addEventListener('click', function() {
+        dialog.showModal();
+        document.documentElement.classList.add('dialog-open');
+        portfolio.dialogOpen = true;
+        restartRotation();
+    });
+
+    dialog.addEventListener('close', function() {
+        document.documentElement.classList.remove('dialog-open');
+        portfolio.dialogOpen = false;
+        restartRotation();
+    });
+
+    dialog.querySelector('.portfolio-dialog-close').addEventListener('click', () => dialog.close());
+
+    // Clicking the dimmed backdrop closes the dialog
+    dialog.addEventListener('click', e => {
+        if (e.target === dialog) dialog.close();
+    });
+
+    grid.addEventListener('click', e => {
+        const item = e.target.closest('[data-index]');
+        if (!item) return;
+        dialog.close();
+        showSlide(Number(item.dataset.index));
+    });
 }
 
 /**
@@ -172,31 +387,22 @@ function initMobileMenu() {
 }
 
 /**
- * Initialize portfolio filter buttons
+ * Initialize portfolio filter buttons (the section and dialog sets stay in sync)
  */
 function initPortfolioFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
 
     filterBtns.forEach(btn => {
-        btn.addEventListener('click', async function() {
-            // Update active state
-            filterBtns.forEach(b => {
-                b.classList.remove('active');
-                b.setAttribute('aria-pressed', 'false');
-            });
-            this.classList.add('active');
-            this.setAttribute('aria-pressed', 'true');
-
-            // Filter portfolio
+        btn.addEventListener('click', function() {
             const filter = this.dataset.filter;
 
-            try {
-                const response = await fetch('data/portfolio.json');
-                const data = await response.json();
-                renderPortfolio(data.items, filter);
-            } catch (error) {
-                console.log('Could not filter portfolio');
-            }
+            filterBtns.forEach(b => {
+                const active = b.dataset.filter === filter;
+                b.classList.toggle('active', active);
+                b.setAttribute('aria-pressed', String(active));
+            });
+
+            applyPortfolioFilter(filter);
         });
     });
 }

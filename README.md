@@ -16,13 +16,16 @@ A professional static website for Pure Color Painting, designed to be easy to up
    - `images/portfolio/commercial/` - for commercial projects
    - `images/portfolio/decks/` - for deck projects
 
-2. Open `data/portfolio.json` and add a new entry:
+   Name files `<category><a|b><number>`: category letter `r` (residential), `c` (commercial) or `d` (decks), then `a` for after, `b` for before, or `s` for a standalone photo with no before, then an index. A before/after pair shares the same index (e.g. `ra3.jpeg` / `rb3.jpeg`); standalone photos have their own numbering (e.g. `rs1.jpeg`).
+
+2. Open `data/portfolio.json` and add a new entry. Include `beforeImage` for a before/after pair, or leave it out for a single photo:
 
 ```json
 {
     "title": "Project Name",
     "category": "residential",
-    "image": "images/portfolio/residential/your-image.jpg",
+    "image": "images/portfolio/residential/ra22.jpeg",
+    "beforeImage": "images/portfolio/residential/rb22.jpeg",
     "description": "Brief description of the project"
 }
 ```

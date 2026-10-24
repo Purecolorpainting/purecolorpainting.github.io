@@ -3,28 +3,219 @@
         {
             "title": "Staircase Refinish",
             "category": "residential",
-            "image": "images/portfolio/residential/residential_after_1.jpg",
-            "beforeImage": "images/portfolio/residential/residential_before_1.jpg",
+            "image": "images/portfolio/residential/ra1.jpg",
+            "beforeImage": "images/portfolio/residential/rb1.jpg",
             "description": "Interior staircase painting"
         },
         {
             "title": "Fireplace & Mantle",
             "category": "residential",
-            "image": "images/portfolio/residential/residential_after_2.jpg",
-            "beforeImage": "images/portfolio/residential/residential_before_2.jpg",
+            "image": "images/portfolio/residential/ra2.jpg",
+            "beforeImage": "images/portfolio/residential/rb2.jpg",
             "description": "Fireplace and mantle refresh"
+        },
+        {
+            "title": "Brick Home Exterior",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra3.jpeg",
+            "beforeImage": "images/portfolio/residential/rb3.jpeg",
+            "description": "Painted brick exterior with a modern dark finish"
+        },
+        {
+            "title": "Brick Home Exterior - Side",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra4.jpeg",
+            "beforeImage": "images/portfolio/residential/rb4.jpeg",
+            "description": "Side elevation of the painted brick exterior"
+        },
+        {
+            "title": "Brick Home Exterior - Rear",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra5.jpeg",
+            "beforeImage": "images/portfolio/residential/rb5.jpeg",
+            "description": "Rear elevation of the painted brick exterior"
+        },
+        {
+            "title": "Dining Room Accent Walls",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra6.jpeg",
+            "beforeImage": "images/portfolio/residential/rb6.jpeg",
+            "description": "Dark accent walls with crisp white trim"
+        },
+        {
+            "title": "Dining Room Repaint",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra7.jpeg",
+            "beforeImage": "images/portfolio/residential/rb7.jpeg",
+            "description": "Full dining room wall and trim painting"
+        },
+        {
+            "title": "Striped Bedroom Wall",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra8.jpeg",
+            "beforeImage": "images/portfolio/residential/rb8.jpeg",
+            "description": "Custom pink and white striped feature wall"
+        },
+        {
+            "title": "Tray Ceiling & Living Room",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra9.jpeg",
+            "beforeImage": "images/portfolio/residential/rb9.jpeg",
+            "description": "Dark tray ceiling and wall painting"
+        },
+        {
+            "title": "Entry & Stairway",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra10.jpeg",
+            "beforeImage": "images/portfolio/residential/rb10.jpeg",
+            "description": "Entryway and stairwell wall painting"
+        },
+        {
+            "title": "Garage & Shed Exterior",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra11.jpeg",
+            "beforeImage": "images/portfolio/residential/rb11.jpeg",
+            "description": "Detached garage and shed painting"
+        },
+        {
+            "title": "Detached Garage - Front",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra12.jpeg",
+            "beforeImage": "images/portfolio/residential/rb12.jpeg",
+            "description": "Siding and trim painting on a detached garage"
+        },
+        {
+            "title": "Detached Garage - Side",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra13.jpeg",
+            "beforeImage": "images/portfolio/residential/rb13.jpeg",
+            "description": "Side elevation of the detached garage"
+        },
+        {
+            "title": "Detached Garage - Rear",
+            "category": "residential",
+            "image": "images/portfolio/residential/ra14.jpeg",
+            "beforeImage": "images/portfolio/residential/rb14.jpeg",
+            "description": "Rear elevation of the garage and shed"
+        },
+        {
+            "title": "Open Kitchen & Living Area",
+            "category": "residential",
+            "image": "images/portfolio/residential/rs1.jpeg",
+            "description": "Two-tone interior walls with dark accents"
+        },
+        {
+            "title": "Kitchen Accent Walls",
+            "category": "residential",
+            "image": "images/portfolio/residential/rs2.jpeg",
+            "description": "Kitchen wall and soffit painting"
+        },
+        {
+            "title": "Paneled Accent Wall",
+            "category": "residential",
+            "image": "images/portfolio/residential/rs3.jpeg",
+            "description": "Dark paneled feature wall and tray ceiling"
+        },
+        {
+            "title": "Great Room Repaint",
+            "category": "residential",
+            "image": "images/portfolio/residential/rs4.jpeg",
+            "description": "Vaulted great room with accent walls"
+        },
+        {
+            "title": "Great Room Accent Wall",
+            "category": "residential",
+            "image": "images/portfolio/residential/rs5.jpeg",
+            "description": "Bold accent wall in a vaulted living space"
         },
         {
             "title": "Kitchen Repaint",
             "category": "residential",
-            "image": "images/portfolio/residential/grounds-2010.jpg",
+            "image": "images/portfolio/residential/rs6.jpg",
             "description": "Kitchen cabinet and wall painting"
         },
         {
             "title": "Residential Exterior",
             "category": "residential",
-            "image": "images/portfolio/residential/exterior-1.gif",
+            "image": "images/portfolio/residential/rs7.gif",
             "description": "Full exterior painting project"
+        },
+        {
+            "title": "Machine Shop Storefront",
+            "category": "commercial",
+            "image": "images/portfolio/commercial/ca1.jpeg",
+            "beforeImage": "images/portfolio/commercial/cb1.jpeg",
+            "description": "Commercial block exterior repaint"
+        },
+        {
+            "title": "Machine Shop - Side Elevation",
+            "category": "commercial",
+            "image": "images/portfolio/commercial/ca2.jpeg",
+            "beforeImage": "images/portfolio/commercial/cb2.jpeg",
+            "description": "Painted block walls and trim"
+        },
+        {
+            "title": "Machine Shop - Overhead Door",
+            "category": "commercial",
+            "image": "images/portfolio/commercial/ca3.jpeg",
+            "beforeImage": "images/portfolio/commercial/cb3.jpeg",
+            "description": "Block exterior and overhead door painting"
+        },
+        {
+            "title": "Machine Shop - Rear Elevation",
+            "category": "commercial",
+            "image": "images/portfolio/commercial/ca4.jpeg",
+            "beforeImage": "images/portfolio/commercial/cb4.jpeg",
+            "description": "Rear block walls and service door"
+        },
+        {
+            "title": "Machine Shop - Front",
+            "category": "commercial",
+            "image": "images/portfolio/commercial/ca5.jpeg",
+            "beforeImage": "images/portfolio/commercial/cb5.jpeg",
+            "description": "Full front facade repaint"
+        },
+        {
+            "title": "Deck Restoration",
+            "category": "decks",
+            "image": "images/portfolio/decks/da1.jpeg",
+            "beforeImage": "images/portfolio/decks/db1.jpeg",
+            "description": "Powerwash and stain of a weathered deck"
+        },
+        {
+            "title": "Deck Restoration - Wide View",
+            "category": "decks",
+            "image": "images/portfolio/decks/da2.jpeg",
+            "beforeImage": "images/portfolio/decks/db2.jpeg",
+            "description": "Cleaned and refinished deck boards and railings"
+        },
+        {
+            "title": "Gazebo Deck Stain",
+            "category": "decks",
+            "image": "images/portfolio/decks/da3.jpeg",
+            "beforeImage": "images/portfolio/decks/db3.jpeg",
+            "description": "Stained deck with gazebo and railings"
+        },
+        {
+            "title": "Deck Stairs & Railings",
+            "category": "decks",
+            "image": "images/portfolio/decks/da4.jpeg",
+            "beforeImage": "images/portfolio/decks/db4.jpeg",
+            "description": "Stained stairs, spindles, and railings"
+        },
+        {
+            "title": "Wraparound Deck Steps",
+            "category": "decks",
+            "image": "images/portfolio/decks/da5.jpeg",
+            "beforeImage": "images/portfolio/decks/db5.jpeg",
+            "description": "Stained multi-level deck steps"
+        },
+        {
+            "title": "Gazebo Deck - Full View",
+            "category": "decks",
+            "image": "images/portfolio/decks/da6.jpeg",
+            "beforeImage": "images/portfolio/decks/db6.jpeg",
+            "description": "Full deck and railing stain"
         }
     ]
 }
