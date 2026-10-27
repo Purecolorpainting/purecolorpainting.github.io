@@ -408,12 +408,64 @@ function initPortfolioFilters() {
 }
 
 /**
+ * Spam filter lists for the contact form. Add new entries in lowercase.
+ * Domains also match their subdomains (e.g. "mail.tramelcrow.com").
+ */
+var BLOCKED_EMAIL_DOMAINS = [
+    'tramelcrow.com' // Phishing look-alike of trammellcrow.com
+];
+
+var BLOCKED_KEYWORDS = [
+    'cedar ridge',
+    'bidding process',
+    'qualified and reliable contractors'
+];
+
+// Real people take longer than this to fill out the form
+var MIN_FILL_TIME_MS = 3000;
+
+/**
+ * Returns a short reason code if the submission looks like spam, otherwise null.
+ * Reason codes (not the matched term) are logged so the console doesn't reveal the list.
+ */
+function getSpamReason(fields, formLoadedAt) {
+    if (fields.honeypot) {
+        return 'honeypot';
+    }
+
+    if (Date.now() - formLoadedAt < MIN_FILL_TIME_MS) {
+        return 'too-fast';
+    }
+
+    var email = fields.email.trim().toLowerCase();
+    var domain = email.substring(email.lastIndexOf('@') + 1);
+    var domainBlocked = BLOCKED_EMAIL_DOMAINS.some(function(blocked) {
+        return domain === blocked || domain.endsWith('.' + blocked);
+    });
+    if (domainBlocked) {
+        return 'domain';
+    }
+
+    // Collapse whitespace so line breaks or double spaces can't dodge a phrase match
+    var text = (fields.name + ' ' + fields.message).toLowerCase().replace(/\s+/g, ' ');
+    var keywordBlocked = BLOCKED_KEYWORDS.some(function(keyword) {
+        return text.indexOf(keyword) !== -1;
+    });
+    if (keywordBlocked) {
+        return 'keyword';
+    }
+
+    return null;
+}
+
+/**
  * Initialize contact form handling via EmailJS
  */
 function initContactForm() {
     emailjs.init('rXH7ds_Pq6j0G0foQ');
 
     const form = document.getElementById('contact-form');
+    var formLoadedAt = Date.now();
 
     if (form) {
         var phoneInput = form.querySelector('#phone');
@@ -444,14 +496,16 @@ function initContactForm() {
             formStatus.textContent = 'Sending your message...';
 
             var service = form.querySelector('#service');
+            var honeypot = form.querySelector('#website');
+            var fields = {
+                name: form.querySelector('#name').value,
+                email: form.querySelector('#email').value,
+                phone: form.querySelector('#phone').value,
+                message: form.querySelector('#message').value,
+                honeypot: honeypot ? honeypot.value : ''
+            };
 
-            emailjs.send('service_bwjjwmh', 'template_8n9bi8e', {
-                from_name: form.querySelector('#name').value,
-                from_email: form.querySelector('#email').value,
-                phone: form.querySelector('#phone').value || 'Not provided',
-                service: service.options[service.selectedIndex].text,
-                message: form.querySelector('#message').value
-            }).then(function() {
+            function showSent() {
                 submitBtn.textContent = 'Message Sent!';
                 formStatus.textContent = 'Thank you! Your message has been sent. We will be in touch soon.';
                 form.reset();
@@ -459,7 +513,23 @@ function initContactForm() {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
                 }, 3000);
-            }, function(error) {
+            }
+
+            // Spam gets the same success UI but never reaches EmailJS (saves monthly quota)
+            var spamReason = getSpamReason(fields, formLoadedAt);
+            if (spamReason) {
+                console.warn('initContactForm@submit: submission filtered', { reason: spamReason });
+                setTimeout(showSent, 800);
+                return;
+            }
+
+            emailjs.send('service_bwjjwmh', 'template_8n9bi8e', {
+                from_name: fields.name,
+                from_email: fields.email,
+                phone: fields.phone || 'Not provided',
+                service: service.options[service.selectedIndex].text,
+                message: fields.message
+            }).then(showSent, function(error) {
                 submitBtn.textContent = 'Failed to Send';
                 submitBtn.disabled = false;
                 formStatus.textContent = '';

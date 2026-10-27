@@ -419,6 +419,11 @@
                             <label for="message">Message</label>
                             <textarea id="message" name="message" rows="4" required></textarea>
                         </div>
+                        <!-- Honeypot: hidden from people and screen readers; bots that fill every field get filtered -->
+                        <div class="visually-hidden" aria-hidden="true">
+                            <label for="website">Website</label>
+                            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                        </div>
                         <button type="submit" class="btn btn-primary">Send Message</button>
                         <p class="form-error" id="form-error" role="alert" hidden>
                             Sorry, something went wrong sending your message. Please call us at
@@ -490,7 +495,7 @@
     <button class="back-to-top" aria-label="Back to top"><span aria-hidden="true">&#9650;</span></button>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="js/main.js?v=3"></script>
+    <script src="js/main.js?v=4"></script>
     <script src="js/consent.js"></script>
 </body>
 </html>
